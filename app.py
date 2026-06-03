@@ -2,17 +2,19 @@ import streamlit as st
 from content_based_filtering import content_recommendation
 from scipy.sparse import load_npz
 import pandas as pd
-from numpy import load
 
+
+# transformed data path
+transformed_data_path = "data/transformed_data.npz"
+
+# cleaned data path
+cleaned_data_path = "data/cleaned_data.csv"
 
 # load the data
-cleaned_data_path = "data/cleaned_data.csv"
-songs_data = pd.read_csv(cleaned_data_path)
+data = pd.read_csv(cleaned_data_path)
 
 # load the transformed data
-transformed_data_path = "data/transformed_data.npz"
 transformed_data = load_npz(transformed_data_path)
-
 
 # Title
 st.title('Welcome to the Spotify Song Recommender!')
@@ -23,11 +25,13 @@ st.write('### Enter the name of a song and the recommender will suggest similar 
 # Text Input
 song_name = st.text_input('Enter a song name:')
 st.write('You entered:', song_name)
-# artist name
+# lowercase the input
+song_name = song_name.lower()
+
+
 artist_name = st.text_input('Enter the artist name:')
 st.write('You entered:', artist_name)
 # lowercase the input
-song_name = song_name.lower()
 artist_name = artist_name.lower()
 
 # k recommndations
@@ -38,7 +42,7 @@ if st.button('Get Recommendations'):
     
     if (data["name"] == song_name).any():
         st.write('Recommendations for', f"**{song_name}**")
-        recommendations = recommend(song_name,data,transformed_data,k)
+        recommendations = content_recommendation(song_name,artist_name,data,transformed_data,k)
     
     # Display Recommendations
         for ind , recommendation in recommendations.iterrows():
