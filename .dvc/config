@@ -1,0 +1,7 @@
+[core]
+    remote = origin
+['remote "origin"']
+    url = https://dagshub.com/Chaitanya0604/Spotify-Hybrid-Recommendation-System.dvc
+    auth = basic
+    user = Chaitanya0604
+    password = bfc79361d380cbb96b6ef8f6fd90fd2f12cab0c2
