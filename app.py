@@ -1,5 +1,5 @@
 import streamlit as st
-from content_based_filtering import content_recommendation
+from content_based_filtering import content
 from scipy.sparse import load_npz
 import pandas as pd
 
@@ -42,19 +42,20 @@ if st.button('Get Recommendations'):
     # Display Recommendations
         for ind , recommendation in recommendations.iterrows():
             song_name = recommendation['name'].title()
+            artist_name = recommendation['artist'].title()
             
             if ind == 0:
                 st.markdown("## Currently Playing")
-                st.markdown(f"#### **{song_name}**")
+                st.markdown(f"#### **{song_name}** by **{artist_name}**")
                 st.audio(recommendation['spotify_preview_url'])
                 st.write('---')
             elif ind == 1:   
                 st.markdown("### Next Up 🎵")
-                st.markdown(f"#### {ind}. **{song_name}**")
+                st.markdown(f"#### {ind}. **{song_name}** by **{artist_name}**")
                 st.audio(recommendation['spotify_preview_url'])
                 st.write('---')
             else:
-                st.markdown(f"#### {ind}. **{song_name}")
+                st.markdown(f"#### {ind}. **{song_name}** by **{artist_name}**")
                 st.audio(recommendation['spotify_preview_url'])
                 st.write('---')
     else:

@@ -129,7 +129,7 @@ def content(song_name,songs_data, transformed_data, k=10):
     # get the top k songs names
     top_k_songs_names = songs_data.iloc[top_k_songs_indexes]
     # print the top k songs
-    top_k_list = top_k_songs_names[['name','spotify_preview_url']].reset_index(drop=True)
+    top_k_list = top_k_songs_names[['name','artist','spotify_preview_url']].reset_index(drop=True)
     return top_k_list
 
 
