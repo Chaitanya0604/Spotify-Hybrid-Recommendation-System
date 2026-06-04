@@ -29,11 +29,6 @@ st.write('You entered:', song_name)
 song_name = song_name.lower()
 
 
-artist_name = st.text_input('Enter the artist name:')
-st.write('You entered:', artist_name)
-# lowercase the input
-artist_name = artist_name.lower()
-
 # k recommndations
 k = st.selectbox('How many recommendations do you want?', [5,10,15,20], index=1)
 
@@ -42,25 +37,24 @@ if st.button('Get Recommendations'):
     
     if (data["name"] == song_name).any():
         st.write('Recommendations for', f"**{song_name}**")
-        recommendations = content_recommendation(song_name,artist_name,data,transformed_data,k)
+        recommendations = content(song_name,data,transformed_data,k)
     
     # Display Recommendations
         for ind , recommendation in recommendations.iterrows():
             song_name = recommendation['name'].title()
-            artist_name = recommendation['artist'].title()
             
             if ind == 0:
                 st.markdown("## Currently Playing")
-                st.markdown(f"#### **{song_name}** by **{artist_name}**")
+                st.markdown(f"#### **{song_name}**")
                 st.audio(recommendation['spotify_preview_url'])
                 st.write('---')
             elif ind == 1:   
                 st.markdown("### Next Up 🎵")
-                st.markdown(f"#### {ind}. **{song_name}** by **{artist_name}**")
+                st.markdown(f"#### {ind}. **{song_name}**")
                 st.audio(recommendation['spotify_preview_url'])
                 st.write('---')
             else:
-                st.markdown(f"#### {ind}. **{song_name}** by **{artist_name}**")
+                st.markdown(f"#### {ind}. **{song_name}")
                 st.audio(recommendation['spotify_preview_url'])
                 st.write('---')
     else:
