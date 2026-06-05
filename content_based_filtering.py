@@ -82,7 +82,6 @@ def save_transformed_data(transformed_data,save_path):
     """
     # save the transformed data
     save_npz(save_path, transformed_data)
-    # npz format is used to save sparse matrices efficiently, which is important for large datasets that may contain many zero values after transformation.
 
 
 def calculate_similarity_scores(input_vector, data):
@@ -100,7 +99,7 @@ def calculate_similarity_scores(input_vector, data):
     return similarity_scores
 
 
-def content(song_name,songs_data, transformed_data, k=10):
+def content_recommendation(song_name,artist_name,songs_data, transformed_data, k=10):
     """
     Recommends top k songs similar to the given song based on content-based filtering.
 
@@ -116,8 +115,10 @@ def content(song_name,songs_data, transformed_data, k=10):
     """
     # convert song name to lowercase
     song_name = song_name.lower()
+    # convert the artist name to lowercase
+    artist_name = artist_name.lower()
     # filter out the song from data
-    song_row = songs_data.loc[(songs_data["name"] == song_name)]
+    song_row = songs_data.loc[(songs_data["name"] == song_name) & (songs_data["artist"] == artist_name)]
     # get the index of song
     song_index = song_row.index[0]
     # generate the input vector
