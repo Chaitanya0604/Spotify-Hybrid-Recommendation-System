@@ -3,7 +3,7 @@ from scipy.sparse import load_npz
 import pandas as pd
 from collaborative_filtering import collaborative_recommendation
 from numpy import load
-
+import streamlit as st
 # load the data
 cleaned_data_path = "data/cleaned_data.csv"
 songs_data = pd.read_csv(cleaned_data_path)
