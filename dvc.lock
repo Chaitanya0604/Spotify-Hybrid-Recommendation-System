@@ -38,7 +38,7 @@ stages:
       size: 4523484
     - path: transformer.joblib
       hash: md5
-      md5: 73f8dfded7802ff8a31be93e57204879
+      md5: 59c1075c72c9cb6e0b076015bac9a9b2
       size: 193263
   interaction_data:
     cmd: python collaborative_filtering.py
@@ -68,3 +68,19 @@ stages:
       hash: md5
       md5: 4a52e4cb6bae6b0126c1344dac7c7686
       size: 640058
+  transformed_filtered_data:
+    cmd: python transform_filtered_data.py
+    deps:
+    - path: data/collab_filtered_data.csv
+      hash: md5
+      md5: 84803c328fa4a48034e534465d70b04a
+      size: 8230000
+    - path: transform_filtered_data.py
+      hash: md5
+      md5: d4df2d151f1aa5b985ac7c13253af6e9
+      size: 742
+    outs:
+    - path: data/transformed_hybrid_data.npz
+      hash: md5
+      md5: 697028aa40ba27bb6d3fb86df8e75e12
+      size: 2977329
