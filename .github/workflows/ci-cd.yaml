@@ -85,7 +85,7 @@ jobs:
             aws deploy create-deployment \
             --application-name hybridrecommendersystem \
             --deployment-config-name CodeDeployDefault.AllAtOnce \
-            --deployment-group-name HybridAccessDeploymentGroup \
+            --deployment-group-name HybridAccessDeploymentGroupV2 \
             --s3-location bucket=cmt-hybridrecsysdeploymentbucket,key=deployment.zip,bundleType=zip \
             --file-exists-behavior OVERWRITE \
             --region ap-south-1
