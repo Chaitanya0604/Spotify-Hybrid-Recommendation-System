@@ -11,12 +11,12 @@ docker pull 114354607243.dkr.ecr.ap-south-1.amazonaws.com/spotify_hybrid_recsys:
 echo "Checking for existing container..."
 if [ "$(docker ps -q -f name=spotify_hybrid_recsys)" ]; then
     echo "Stopping existing container..."
-    docker stop hybrid_recsys
+    docker stop spotify_hybrid_recsys
 fi
 
 if [ "$(docker ps -aq -f name=spotify_hybrid_recsys)" ]; then
     echo "Removing existing container..."
-    docker rm hybrid_recsys
+    docker rm spotify_hybrid_recsys
 fi
 
 echo "Starting new container..."
