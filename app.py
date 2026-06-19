@@ -102,14 +102,14 @@ st.markdown("""
    winning over the input's own border and showing as a heavy black edge.
    Targeting the wrapper directly (not just the input) and using !important
    ensures the soft warm border actually renders. */
-div[data-testid="stTextInput"] > div {
+div[data-testid="stTextInput"] div[data-baseweb="input"] {
     background: linear-gradient(135deg, #2B2A2E 0%, #3A3340 100%) !important;
     border: 1.5px solid #423D40 !important;
     border-radius: 14px !important;
     box-shadow: 0 2px 10px rgba(28,28,30,0.18) !important;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-div[data-testid="stTextInput"] > div:focus-within {
+div[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within {
     border-color: #E8A598 !important;
     box-shadow: 0 0 0 3px rgba(232,165,152,0.22) !important;
 }
