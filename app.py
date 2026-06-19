@@ -102,18 +102,33 @@ st.markdown("""
    winning over the input's own border and showing as a heavy black edge.
    Targeting the wrapper directly (not just the input) and using !important
    ensures the soft warm border actually renders. */
-div[data-testid="stTextInput"] div[data-baseweb="input"] {
+div[data-testid="stTextInputRootElement"] {
     background: linear-gradient(135deg, #2B2A2E 0%, #3A3340 100%) !important;
     border: 1.5px solid #423D40 !important;
     border-radius: 14px !important;
     box-shadow: 0 2px 10px rgba(28,28,30,0.18) !important;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-div[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within {
+div[data-testid="stTextInputRootElement"]:focus-within {
     border-color: #E8A598 !important;
     box-shadow: 0 0 0 3px rgba(232,165,152,0.22) !important;
 }
-.stTextInput > div > div > input {
+/* Chrome/Edge force their own light-blue/yellow background on autofilled
+   inputs, overriding normal background-color rules entirely. The only way
+   to beat it is to repaint via a huge inset box-shadow (background-color
+   itself is ignored by the browser's autofill UA styles) and force the
+   text color via -webkit-text-fill-color, since color is also overridden. */
+.stTextInput input:-webkit-autofill,
+.stTextInput input:-webkit-autofill:hover,
+.stTextInput input:-webkit-autofill:focus,
+.stTextInput input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #2B2A2E inset !important;
+    box-shadow: 0 0 0 1000px #2B2A2E inset !important;
+    -webkit-text-fill-color: #F2C4BA !important;
+    caret-color: #F2C4BA !important;
+    transition: background-color 9999s ease-in-out 0s;
+}
+div[data-testid="stTextInputRootElement"] input {
     background-color: transparent !important;
     border: none !important;
     padding: 14px 18px;
@@ -125,7 +140,7 @@ div[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within {
     box-shadow: none !important;
     caret-color: #F2C4BA;
 }
-.stTextInput > div > div > input::placeholder {
+div[data-testid="stTextInputRootElement"] input::placeholder {
     color: #8A8390 !important;
     font-style: italic;
     opacity: 1;
