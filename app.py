@@ -109,6 +109,9 @@ div[data-testid="stTextInputRootElement"] {
     box-shadow: 0 2px 10px rgba(28,28,30,0.18) !important;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
+div[data-testid="stTextInputRootElement"] div[data-baseweb="base-input"] {
+    background: transparent !important;
+}
 div[data-testid="stTextInputRootElement"]:focus-within {
     border-color: #E8A598 !important;
     box-shadow: 0 0 0 3px rgba(232,165,152,0.22) !important;
