@@ -97,11 +97,7 @@ st.markdown("""
     display: none !important;
 }
 
-/* ── Text inputs ──
-   Streamlit/baseweb applies its own border to the wrapping div, which was
-   winning over the input's own border and showing as a heavy black edge.
-   Targeting the wrapper directly (not just the input) and using !important
-   ensures the soft warm border actually renders. */
+/* ── Text inputs ── */
 div[data-testid="stTextInputRootElement"] {
     background: linear-gradient(135deg, #2B2A2E 0%, #3A3340 100%) !important;
     border: 1.5px solid #423D40 !important;
@@ -109,45 +105,59 @@ div[data-testid="stTextInputRootElement"] {
     box-shadow: 0 2px 10px rgba(28,28,30,0.18) !important;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-div[data-testid="stTextInputRootElement"] div[data-baseweb="base-input"] {
+
+/* THE KEY FIX: nuke the background on ALL intermediate baseweb wrapper divs
+   Streamlit nests 3–4 anonymous divs between the root element and the <input>.
+   Any one of them painting white/default undoes the dark parent.
+   The wildcard catches every layer without needing to know exact DOM depth. */
+div[data-testid="stTextInputRootElement"] * {
     background: transparent !important;
+    background-color: transparent !important;
 }
+
+/* Re-apply only to the root so the gradient isn't wiped by the wildcard above */
+div[data-testid="stTextInputRootElement"] {
+    background: linear-gradient(135deg, #2B2A2E 0%, #3A3340 100%) !important;
+}
+
 div[data-testid="stTextInputRootElement"]:focus-within {
     border-color: #E8A598 !important;
     box-shadow: 0 0 0 3px rgba(232,165,152,0.22) !important;
 }
-/* Chrome/Edge force their own light-blue/yellow background on autofilled
-   inputs, overriding normal background-color rules entirely. The only way
-   to beat it is to repaint via a huge inset box-shadow (background-color
-   itself is ignored by the browser's autofill UA styles) and force the
-   text color via -webkit-text-fill-color, since color is also overridden. */
-.stTextInput input:-webkit-autofill,
-.stTextInput input:-webkit-autofill:hover,
-.stTextInput input:-webkit-autofill:focus,
-.stTextInput input:-webkit-autofill:active {
+
+/* Autofill — inset shadow paints dark over browser's blue tint */
+div[data-testid="stTextInputRootElement"] input:-webkit-autofill,
+div[data-testid="stTextInputRootElement"] input:-webkit-autofill:hover,
+div[data-testid="stTextInputRootElement"] input:-webkit-autofill:focus,
+div[data-testid="stTextInputRootElement"] input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 1000px #2B2A2E inset !important;
     box-shadow: 0 0 0 1000px #2B2A2E inset !important;
     -webkit-text-fill-color: #F2C4BA !important;
     caret-color: #F2C4BA !important;
-    transition: background-color 9999s ease-in-out 0s;
 }
+
 div[data-testid="stTextInputRootElement"] input {
+    background: transparent !important;
     background-color: transparent !important;
     border: none !important;
+    box-shadow: none !important;
     padding: 14px 18px;
     font-family: 'Playfair Display', serif;
     font-style: italic;
     font-weight: 600;
     font-size: 1.2rem;
     color: #F2C4BA !important;
-    box-shadow: none !important;
+    -webkit-text-fill-color: #F2C4BA !important;
     caret-color: #F2C4BA;
 }
+
 div[data-testid="stTextInputRootElement"] input::placeholder {
     color: #8A8390 !important;
+    -webkit-text-fill-color: #8A8390 !important;
     font-style: italic;
     opacity: 1;
 }
+
 .stTextInput > label,
 .stTextInput > label p {
     font-family: 'Inter', sans-serif;
@@ -156,6 +166,8 @@ div[data-testid="stTextInputRootElement"] input::placeholder {
     color: #8BAF9A !important;
     letter-spacing: 0.3px;
 }
+
+
 
 /* ── Selectbox — fix invisible box, match input styling ──
    The previous rule assumed a fixed DOM depth (stSelectbox > div > div),
